@@ -1,0 +1,15 @@
+.input {
+  padding: 5px 10px;
+  outline: none;
+
+  width: 390px;
+
+  background-color: #fff;
+  border-radius: 2px;
+  font-size: 14px;
+  color: #4b2354;
+  line-height: 1.2;
+  box-shadow: 0 2px 2px 0px rgba(50, 44, 51, 0.5);
+  border-radius: 2px;
+  border: 1px solid rgba(29, 25, 48, 0.329);
+}
