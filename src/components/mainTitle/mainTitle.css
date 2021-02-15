@@ -1,0 +1,22 @@
+.mainTitle {
+  margin: 0 auto;
+  width: 390px;
+  color: #303f9f;
+}
+.mainTitle-enter {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+.mainTitle-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 5000ms linear;
+}
+.mainTitle-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+.mainTitle-exit-active {
+  transform: translateX(-100%);
+  transition: opacity 5000ms linear;
+}

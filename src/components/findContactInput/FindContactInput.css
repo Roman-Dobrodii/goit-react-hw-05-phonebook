@@ -1,34 +1,23 @@
 .input {
-  padding: 5px 10px;
+  padding: 10px 10px;
   outline: none;
-  border: 1px solid rgb(54, 54, 65);
-  width: 100%;
+  margin-bottom: 15px;
+  border: 1px solid rgb(181, 181, 184);
+  width: 320px;
   background-color: #fff;
-  border-radius: 2px;
+  border-radius: 3px;
   font-size: 14px;
   color: #4b2354;
   line-height: 1.2;
-  box-shadow: 0 2px 2px 0px rgba(50, 44, 51, 0.5);
 }
 
-.button {
-  padding: 10px 15px;
-  outline: none;
-  border: 1px solid rgb(54, 54, 65);
-  background-color: blue;
-  color: #fff;
-  cursor: pointer;
-}
-
-button:hover {
-  box-shadow: 0 2px 2px 0px rgba(50, 44, 51, 0.5);
-}
-
-.form {
+.findInputFrame {
   margin: 0 auto;
+  margin-bottom: 15px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   padding: 15px;
   width: 390px;
   background: #fff;

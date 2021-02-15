@@ -1,0 +1,29 @@
+.contactsList {
+  margin: 0 auto;
+  width: 390px;
+  padding: 0;
+}
+
+.taskListFade-enter {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+.taskListFade-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: all 250ms linear;
+}
+.taskListFade-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+.taskListFade-exit-active {
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: all 250ms linear;
+}
+.taskListFade-exit-done {
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: all 250ms linear;
+}

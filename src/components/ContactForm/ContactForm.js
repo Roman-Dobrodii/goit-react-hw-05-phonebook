@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
-import style from './ContactForm.module.css';
+import { CSSTransition } from 'react-transition-group';
+import './ContactForm.css';
 import PropTypes from 'prop-types';
 
 export default class ContactForm extends Component {
-  state = {
+  formInitialState = {
     name: '',
     number: '',
   };
-
+  state = {
+    ...this.formInitialState,
+    alertMessageShow: false,
+  };
   handleChange = ({ target }) => {
     const { name, value } = target;
     this.setState({ [name]: value });
@@ -20,49 +24,63 @@ export default class ContactForm extends Component {
     const { contacts } = this.props;
     const existedContact = contacts.find(contact => contact.name === name);
     if (existedContact) {
-      alert(`${name} is already in contacts`);
-      return;
+      this.setState({ alertMessageShow: true });
+      return this.setState({ ...this.formInitialState });
     }
 
     this.props.addContact(this.state.name, this.state.number);
     this.setState({ name: '', number: '' });
   };
-
+  toggleAlert = () => {
+    this.setState({ alertMessageShow: false });
+  };
   render() {
-    const { name, number } = this.state;
+    const { name, number, alertMessageShow } = this.state;
+
     return (
-      <form className={style.form} onSubmit={this.handleSubmit}>
-        <label>
-          Name{' '}
-          <input
-            className={style.input}
-            type="text"
-            name="name"
-            value={name}
-            onChange={this.handleChange}
-            placeholder="Enter name"
-          ></input>
-        </label>
-        <br />
-        <label>
-          Number{' '}
-          <input
-            className={style.input}
-            type="text"
-            name="number"
-            value={number}
-            onChange={this.handleChange}
-            placeholder="Enter number"
-          ></input>
-        </label>
-        <br />
-        <button className={style.button} type="submit">
-          Add contact
-        </button>
-      </form>
+      <section className="wrapper">
+        <CSSTransition
+          in={alertMessageShow}
+          timeout={250}
+          classNames="alertFade"
+          unmountOnExit
+        >
+          <button className="alertMessage" onClick={this.toggleAlert}>
+            <p>Contact already exists</p>
+          </button>
+        </CSSTransition>
+        <form onSubmit={this.handleSubmit} className="form">
+          <label>
+            Name
+            <input
+              className="input"
+              type="text"
+              name="name"
+              value={name}
+              onChange={this.handleChange}
+              placeholder="Enter name"
+            ></input>
+          </label>
+          <label>
+            Number
+            <input
+              className="input"
+              type="tel"
+              value={number}
+              onChange={this.handleChange}
+              name="number"
+              placeholder="Enter number"
+            ></input>
+          </label>
+          <button type="submit" className="addContactButton">
+            Add contact
+          </button>
+        </form>
+      </section>
     );
   }
 }
+
 ContactForm.propTypes = {
   state: PropTypes.shape({
     name: PropTypes.string.isRequired,

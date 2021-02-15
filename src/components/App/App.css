@@ -1,0 +1,26 @@
+.mainTitleSlideIn-appear {
+  transform: translateX(-100%);
+}
+.mainTitleSlideIn-appear-active {
+  transform: translateX(0);
+  transition: transform 500ms linear;
+}
+
+.findContact-enter {
+  opacity: 0;
+  transform: scale(0.1);
+}
+.findContact-enter-active {
+  opacity: 1;
+  transform: scale(1);
+  transition: all 250ms linear;
+}
+.findContact-exit {
+  opacity: 1;
+  transform: scale(1);
+}
+.findContact-exit-active {
+  opacity: 0;
+  transform: scale(0.1);
+  transition: all 250ms linear;
+}

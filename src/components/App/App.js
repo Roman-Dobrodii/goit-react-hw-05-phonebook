@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import ContactList from '../ContactList/ContactList';
-import ContactForm from '../ContactForm/ContactForm';
-import Filter from '../Filter/Filter';
 import { v4 as uuidv4 } from 'uuid';
-import style from './App.module.css';
-import PropTypes from 'prop-types';
+import './App.css';
 
-export default class Phonebook extends Component {
+import MainTitle from '../mainTitle/MainTitle';
+import ContactForm from '../contactForm/ContactForm';
+import FindContactInput from '../findContactInput/FindContactInput';
+import ContactsList from '../contacstList/ContactsList';
+import { CSSTransition } from 'react-transition-group';
+
+export default class App extends Component {
   state = {
     contacts: [
       // { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
@@ -15,23 +17,21 @@ export default class Phonebook extends Component {
       // { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
     ],
     filter: '',
+    showContacts: false,
   };
 
   componentDidMount() {
-    const contacts = localStorage.getItem('contacts');
-    const parsedContacts = JSON.parse(contacts);
-
-    if (parsedContacts) {
-      this.setState({ contacts: parsedContacts });
+    const persistedContacts = localStorage.getItem('contacts');
+    if (persistedContacts) {
+      this.setState({ contacts: JSON.parse(persistedContacts) });
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.contacts !== prevState.contacts) {
+    if (prevState.contacts !== this.state.contacts) {
       localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
     }
   }
-
   addContact = (name, number) => {
     const contact = {
       name: name,
@@ -42,6 +42,7 @@ export default class Phonebook extends Component {
     this.setState(prevState => {
       return {
         contacts: [...prevState.contacts, contact],
+        showContacts: true,
       };
     });
   };
@@ -51,6 +52,7 @@ export default class Phonebook extends Component {
 
   getFilteredContacts = () => {
     const { contacts, filter } = this.state;
+
     return contacts.filter(contact =>
       contact.name.toLowerCase().includes(filter.toLowerCase()),
     );
@@ -65,18 +67,31 @@ export default class Phonebook extends Component {
     const { filter } = this.state;
 
     const filteredContacts = this.getFilteredContacts();
-
     return (
-      <div className={style.section}>
-        <h1>Phonebook</h1>
+      <div>
+        <CSSTransition
+          in={true}
+          appear={true}
+          classNames="mainTitleSlideIn"
+          timeout={5000}
+          unmountOnExit
+        >
+          <MainTitle />
+        </CSSTransition>
 
         <ContactForm addContact={this.addContact} contacts={filteredContacts} />
-        <h2>Contacts</h2>
 
-        <Filter value={filter} onChangeFilter={this.changeFilter} />
+        <CSSTransition
+          in={this.state.contacts.length > 1}
+          timeout={250}
+          classNames="findContact"
+          unmountOnExit
+        >
+          <FindContactInput value={filter} onChangeFilter={this.changeFilter} />
+        </CSSTransition>
 
         {filteredContacts.length > 0 && (
-          <ContactList
+          <ContactsList
             deleteContact={this.handleDelete}
             contacts={filteredContacts}
           />
@@ -85,16 +100,3 @@ export default class Phonebook extends Component {
     );
   }
 }
-
-Phonebook.propTypes = {
-  state: PropTypes.shape({
-    contacts: PropTypes.arrayOf(
-      PropTypes.shape({
-        name: PropTypes.string,
-        id: PropTypes.string,
-        number: PropTypes.string,
-      }),
-    ).isRequired,
-    filter: PropTypes.string,
-  }),
-};
